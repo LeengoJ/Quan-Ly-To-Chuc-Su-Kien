@@ -45,6 +45,25 @@ schemaAccount.virtual("url").get(function () {
 
 // Export model
 module.exports = mongoose.model("Account", schemaAccount);
+
+//Địa điểm tổ chức sự kiện
+var schemaLocationEvent = new Schema({
+  name: String,
+  Location: String,
+  capacity: Number,
+  acreage: Number,
+  rateService: { type: Number, min: 0, max: 5 },
+  rateSecurity: { type: Number, min: 0, max: 5 },
+  rateSound: { type: Number, min: 0, max: 5 },
+});
+// Virtual for LocationEvent's URL
+schemaTypeOfEvent_HTKH.virtual("url").get(function () {
+  // We don't use an arrow function as we'll need the this object
+  return `/catalog/LocationEvent/${this._id}`;
+});
+// Export model
+module.exports = mongoose.model("LocationEvent", schemaLocationEvent);
+
 //Tạo bảng Event
 
 var schemaEvent = new Schema({
@@ -68,44 +87,7 @@ var schemaEvent = new Schema({
     type: String,
     enum: ["public", "private"],
   },
-  numberOfCustomer: Number,
-});
-// Virtual for Event's URL
-schemaEvent.virtual("url").get(function () {
-  // We don't use an arrow function as we'll need the this object
-  return `/catalog/Event/${this._id}`;
-});
-// Export model
-module.exports = mongoose.model("Event", schemaEvent);
-//Customer
-var schemaCustomerInEvent = {
-  name: String,
-  phone: String,
-  email: String,
-  obj: {
-    type: String,
-    enum: ["Đại Lý", "Nhà Phân Phối", "Đối tác", "Bên Truyền Thông"],
-    default: "Đại Lý",
-  },
-};
-// Virtual for CustomerInEvent's URL
-schemaCustomerInEvent.virtual("url").get(function () {
-  // We don't use an arrow function as we'll need the this object
-  return `/catalog/CustomerInEvent/${this._id}`;
-});
-// Export model
-module.exports = mongoose.model("CustomerInEvent", schemaCustomerInEvent);
-//Type of Event
-
-var schemaTypeOfEvent_HN = new Schema({
-  listGuestStars: {
-    type: schemaCustomerInEvent,
-    numberOfCustomer: {
-      type: Number,
-      enum: [100, 300, 500, 1000],
-      default: 100,
-    },
-  },
+  timeLine: String,
   Location: schemaLocationEvent,
   time: Number,
   Theme: String,
@@ -118,7 +100,56 @@ var schemaTypeOfEvent_HN = new Schema({
     drink: String,
     Recreational: String,
   },
+  script: {
+    host: schemaAccount, //he person who receives guests in the conference
+    eventPlanner: schemaAccount, //the person who arranges the seats in the conference,
+    MC: schemaAccount,
+    issue: String,
+  },
   Budget: Number,
+});
+// Virtual for Event's URL
+schemaEvent.virtual("url").get(function () {
+  // We don't use an arrow function as we'll need the this object
+  return `/catalog/Event/${this._id}`;
+});
+// Export model
+module.exports = mongoose.model("Event", schemaEvent);
+//Customer
+var schemaCustomerInEvent_HN = {
+  name: String,
+  phone: String,
+  email: String,
+  obj: {
+    type: String,
+    enum: [
+      "Đại Lý",
+      "Cơ Quan Nhà Nước",
+      "Nhà Phân Phối",
+      "Đối tác",
+      "Bên Truyền Thông",
+    ],
+    default: "Đại Lý",
+  },
+};
+// Virtual for CustomerInEvent_HN's URL
+schemaCustomerInEvent_HN.virtual("url").get(function () {
+  // We don't use an arrow function as we'll need the this object
+  return `/catalog/CustomerInEvent_HN/${this._id}`;
+});
+// Export model
+module.exports = mongoose.model("CustomerInEvent_HN", schemaCustomerInEvent_HN);
+//Type of Event
+
+var schemaTypeOfEvent_HN = new Schema({
+  listGuestStars: {
+    type: schemaCustomerInEvent,
+    numberOfCustomer: {
+      type: Number,
+      enum: [100, 300, 500, 1000],
+      default: 100,
+    },
+  },
 });
 // Virtual for TypeOfEvent_HN's URL
 schemaTypeOfEvent_HN.virtual("url").get(function () {
@@ -127,11 +158,29 @@ schemaTypeOfEvent_HN.virtual("url").get(function () {
 });
 // Export model
 module.exports = mongoose.model("TypeOfEvent_HN", schemaTypeOfEvent_HN);
-//schemaTypeOfEvent_HTKH
 
+var schemaCustomerInEvent_KHKT = {
+  name: String,
+  phone: String,
+  email: String,
+  obj: {
+    type: String,
+    enum: ["Giáo Sư", "Tiến sĩ", "Sinh Viên", "Bên Truyền Thông"],
+    default: "Đại Lý",
+  },
+};
+// Virtual for CustomerInEvent_HN's URL
+schemaCustomerInEvent_HN.virtual("url").get(function () {
+  // We don't use an arrow function as we'll need the this object
+  return `/catalog/CustomerInEvent_HN/${this._id}`;
+});
+// Export model
+
+//schemaTypeOfEvent_HTKH
+module.exports = mongoose.model("CustomerInEvent_HN", schemaCustomerInEvent_HN);
 var schemaTypeOfEvent_HTKH = new Schema({
   listGuestStars: {
-    type: schemaCustomerInEvent,
+    type: schemaCustomerInEvent_KHKT,
     numberOfCustomer: {
       type: Number,
       enum: [100, 300, 500, 1000],
@@ -150,33 +199,59 @@ var schemaTypeOfEvent_HTKH = new Schema({
     ],
     default: "cung cấp kiến thức",
   },
-  theme: String,
-  script: {
-    host: schemaAccount, //he person who receives guests in the conference
-    eventPlanner: schemaAccount, //the person who arranges the seats in the conference,
-    MC: schemaAccount,
-    issue: String,
-  },
-  Location: String,
-  time: Number,
-  Budget: Number,
-  Details: {
-    Gift: String,
-    invitationCart: String,
-    thanksCard: String,
-    food: String,
-    drink: String,
-    Recreational: String,
-  },
 });
+// Virtual for TypeOfEvent_HTKH's URL
+schemaTypeOfEvent_HTKH.virtual("url").get(function () {
+  // We don't use an arrow function as we'll need the this object
+  return `/catalog/TypeOfEvent_HTKH/${this._id}`;
+});
+// Export model
+module.exports = mongoose.model("TypeOfEvent_HTKH", schemaTypeOfEvent_HTKH);
 
-//Địa điểm tổ chức sự kiện
-var schemaLocationEvent = new Schema({
+var schemaCustomerInEvent_AN = {
   name: String,
-  Location: String,
-  capacity: Number,
-  acreage: Number,
-  rateService: { type: Number, min: 0, max: 5 },
-  rateSecurity: { type: Number, min: 0, max: 5 },
-  rateSound: { type: Number, min: 0, max: 5 },
+  phone: String,
+  email: String,
+  obj: {
+    type: String,
+    enum: ["Sinh Viên", "Người đã đi làm", "Khách mời"],
+    default: "Sinh Viên",
+  },
+};
+// Virtual for CustomerInEvent_AN's URL
+schemaCustomerInEvent_AN.virtual("url").get(function () {
+  // We don't use an arrow function as we'll need the this object
+  return `/catalog/CustomerInEvent_AN/${this._id}`;
 });
+// Export model
+var schemaTypeOfEvent_AN = new Schema({
+  listGuestStars: {
+    type: schemaCustomerInEvent_AN,
+    numberOfCustomer: {
+      type: Number,
+      enum: [100, 300, 500, 1000],
+      default: 100,
+    },
+  },
+  ageUser: {
+    type: Number,
+    min: {
+      type: Number,
+      enum: [0, 14, 16, 18],
+      default: 0,
+    },
+  },
+  purpose: {
+    type: String,
+    maxlength: 200,
+    enum: ["Quyên góp từ thiện", "Sân chơi giải trí", "Debut", "bán vé"],
+    default: "bán vé",
+  },
+});
+// Virtual for TypeOfEvent_AN's URL
+schemaTypeOfEvent_AN.virtual("url").get(function () {
+  // We don't use an arrow function as we'll need the this object
+  return `/catalog/TypeOfEvent_AN/${this._id}`;
+});
+// Export model
+module.exports = mongoose.model("TypeOfEvent_AN", schemaTypeOfEvent_AN);
