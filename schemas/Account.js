@@ -1,20 +1,9 @@
 const { Timestamp } = require("mongodb");
 const mongoose = require("mongoose");
-
-// Set `strictQuery: false` to globally opt into filtering by properties that aren't in the schema
-// Included because it removes preparatory warnings for Mongoose 7.
-// See: https://mongoosejs.com/docs/migrating_to_6.html#strictquery-is-removed-and-replaced-by-strict
-mongoose.set("strictQuery", false);
-
-// Define the database URL to connect to.
-const mongoDB = "mongodb://127.0.0.1:27017/QLTCSK";
-
-// Wait for database to connect, logging an error if there is a problem
-main().catch((err) => console.log(err));
-async function main() {
-  await mongoose.connect(mongoDB, { useNewUrlParser: true });
-}
-//Tạo bảng tài khoản người dùng
+const bcrypt = require("bcrypt");
+var configs = require("./configs/configs");
+const jwt = require("jsonwebtoken");
+const crypto = require("crypto");
 
 var Account = new mongoose.Schema({
   userName: { type: String, required: true, maxlength: 100 },
@@ -29,11 +18,57 @@ var Account = new mongoose.Schema({
   },
   address: Date,
 });
-// Virtual for account's URL
-Account.virtual("url").get(function () {
-  // We don't use an arrow function as we'll need the this object
-  return `/catalog/author/${this._id}`;
+// Ma hoa password
+Account.pre("save", function (next) {
+  if (!this.isModified("passWord")) {
+    next();
+  } else {
+    let salt = bcrypt.genSaltSync(configs.saltRounds); // tao 1 chuoi ngau nhien duoc 1 cach dong bo
+    this.passWord = bcrypt.hashSync(this.password, salt); //luu chuoi vua duoc tao ra bang ham hashSync vao db
+    next();
+  }
 });
+//Chua hieu lam, co le la set thoi gian requet lay id,cha biet dc, hoi giong phan quyen, hoi giong bao mat
+Account.methods.getSignedJWT = function () {
+  return jwt.sign({ id: this._id }, configs.JWT_SECRET, {
+    expiresIn: configs.JWT_EXPIRE,
+  });
+};
+//Tao mat khau moi va dua vao trong db
+Account.method.UpdatePwNew = async function (user) {
+  var isMatch = await bcrypt.compare(user.passWord, this.passWord);
+  if (!isMatch) {
+    var salt = bcrypt.genSaltSync(configs.saltRounds);
+    user.passWord = bcrypt.hashSync(user.passWord, salt);
+    return user;
+  }
+  user.passWord = this.passWord;
+  return user;
+};
+//Gui ve client 1 token cho phep giu truy cap quyen thay doi passWord
+Account.methods.resetPassword = function () {
+  const resetToken = crypto.randomBytes(20).toString("hex");
+  this.resetPassToken = crypto
+    .createHash("sha256") //Thuat toan su dung de ma hoa
+    .update(resetToken)
+    .digest("hex");
+  this.resetPassTokenExp = Date.now() + 10 * 60 * 1000;
+  return resetToken;
+};
 
+Account.statics.findByCredentinal = async function (email, password) {
+  if (!email || !password) {
+    return { error: "khong de trong email va password" };
+  }
+  let user = await this.findOne({ email: email });
+  if (!user) {
+    return { error: "email khong ton tai" };
+  }
+  let isMatch = await bcrypt.compare(password, user.password);
+  if (!isMatch) {
+    return { error: "password sai" };
+  }
+  return user;
+};
 // Export model
-module.exports = mongoose.model("Account", Account);
+Account.module.exports = mongoose.model("Account", Account);
