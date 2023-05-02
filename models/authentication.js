@@ -9,10 +9,12 @@ module.exports = {
     var check = await Account.find({
       $or: [{ email: item.email }, { username: item.username }],
     }).exec();
-    if (check) {
-      return { error: "trung gmail hoac username" };
+    if (!check) {
+      return { error: "Trung gmail hoac username" };
     } else {
+      console.log("f5");
       let newItem = await new Account(item).save();
+      console.log("f6");
       return await newItem.getSignedJWT();
     }
   },
@@ -41,9 +43,28 @@ module.exports = {
     return true;
   },
   FogotPassWord: async (item) => {
-    const account = await Account.findOne({ email: item.email }).exec();
-    if (!account) return false;
-    const tokenReset = Account.ResetPassWord();
+    const user = await Account.findOne({ email: item.email }).exec();
+
+    if (!user) return false;
+
+    const tokenReset = user.resetPassword();
     await user.save();
+
+    const resetURL = `${configs.HOST}api/v1/auth/resetpassword/${tokenReset}`;
+    const message = `Truy cap vao link de doi passs: ${resetURL}`;
+
+    try {
+      await sendmail.SendMail({
+        email: user.email,
+        subject: " Doi Pass",
+        message: message,
+      });
+      return "check mail";
+    } catch (error) {
+      user.resetPassToken = undefined;
+      user.resetPassTokenExp = undefined;
+      await user.save();
+      return "khong gui duoc mail" + error;
+    }
   },
 };
