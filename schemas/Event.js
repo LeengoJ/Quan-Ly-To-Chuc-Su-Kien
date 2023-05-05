@@ -1,12 +1,14 @@
 // Import the mongoose module
 const { Timestamp } = require("mongodb");
 const mongoose = require("mongoose");
+const hn = require("./TypeOfEvent_HN");
+const an = require("./TypeOfEvent_AN");
+const htkh = require("./TypeOfEvent_HTKH");
 
 var Event = new mongoose.Schema({
-  typeOfEvent: {
-    type: String,
-    enum: ["Hội nghị", "Đám cưới", "Đêm ca nhạc"],
-  },
+  typeOfEvent1: hn,
+  typeOfEvent2: an,
+  typeOfEvent3: htkh,
   timeStart: {
     type: Date,
     default: Date.now,

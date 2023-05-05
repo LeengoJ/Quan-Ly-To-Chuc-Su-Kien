@@ -3,7 +3,9 @@ var router = express.Router();
 var handleresult = require("../configs/handleResult");
 var models_authentication = require("../models/authentication");
 var models_roll = require("../models/Roll");
-
+var models_rollUser = require("../models/RollUser");
+var models_Collaborater = require("../models/Collaborater");
+var models_Event = require("../models/Event");
 var { Rules, validate } = require("../validator/authentication");
 const Roll = require("../schemas/Roll");
 var protectMiddleware = require("../middleware/protect");
@@ -42,7 +44,6 @@ router.post("/authentication/login", async function (req, res, next) {
     handleresult.showResult(res, 400, false, error);
   }
 });
-
 router.get(
   "/authentication/me",
   protectMiddleware.protect,
@@ -102,35 +103,29 @@ router.post(
   }
 );
 //Roll
-router.post("Roll/addRoll", async function (req, res, next) {
+router.post("/Roll/addRoll", async function (req, res, next) {
   let newItem = await new Roll(req.body).save();
 });
 
-router.get("Roll/", async function (req, res, next) {
+router.get("/Roll/", async function (req, res, next) {
+  console.log("1");
   try {
-    var items = await models_roll.getAllItem();
+    var items = await models_roll.GetAllItem();
+
     handleresult.showResult(res, 200, true, items);
   } catch (error) {
     handleresult.showResult(res, 400, false, error);
   }
 });
-router.get("Roll/:id", async function (req, res, next) {
+router.get("/Roll/:id", async function (req, res, next) {
   try {
-    var item = await models_roll.getItemById(req.params.id);
+    var item = await models_roll.GetItemById(req.params.id);
     handleresult.showResult(res, 200, true, item);
   } catch (error) {
     handleresult.showResult(res, 400, false, error);
   }
 });
-router.post("Roll/add", Rules(), validate, async function (req, res, next) {
-  try {
-    var item = await models_roll.addAnItem(req.body);
-    handleresult.showResult(res, 200, true, item);
-  } catch (error) {
-    handleresult.showResult(res, 400, false, error);
-  }
-});
-router.put("Roll/edit/:id", async function (req, res, next) {
+router.put("/Roll/edit/:id", async function (req, res, next) {
   try {
     var item = await models_roll.editAnItem({
       id: req.params.id,
@@ -141,9 +136,147 @@ router.put("Roll/edit/:id", async function (req, res, next) {
     handleresult.showResult(res, 400, false, error);
   }
 });
-router.delete("Roll/delete/:id", async function (req, res, next) {
+router.delete("/Roll/delete/:id", async function (req, res, next) {
   try {
     var item = await models_roll.deleteAnItem(req.params.id);
+    handleresult.showResult(res, 200, true, item);
+  } catch (error) {
+    handleresult.showResult(res, 400, false, error);
+  }
+});
+//Add roll with user
+router.get("/Roll_U/", async function (req, res, next) {
+  console.log("1");
+  try {
+    var items = await models_rollUser.GetAllItem();
+
+    handleresult.showResult(res, 200, true, items);
+  } catch (error) {
+    handleresult.showResult(res, 400, false, error);
+  }
+});
+router.post("/Roll_U/addRoll", async function (req, res, next) {
+  try {
+    var item = await models_rollUser.AddAnItem(req.body);
+    handleresult.showResult(res, 200, true, item);
+  } catch (error) {
+    handleresult.showResult(res, 400, false, error);
+  }
+});
+router.get("/Roll_U/:id", async function (req, res, next) {
+  try {
+    var item = await models_rollUser.GetItemById(req.params.id);
+    handleresult.showResult(res, 200, true, item);
+  } catch (error) {
+    handleresult.showResult(res, 400, false, error);
+  }
+});
+router.put("/Roll_U/edit/:id", async function (req, res, next) {
+  try {
+    var item = await models_rollUser.editAnItem({
+      id: req.params.id,
+      update: req.body,
+    });
+    handleresult.showResult(res, 200, true, item);
+  } catch (error) {
+    handleresult.showResult(res, 400, false, error);
+  }
+});
+router.delete("/Roll_U/delete/:id", async function (req, res, next) {
+  try {
+    var item = await models_rollUser.deleteAnItem(req.params.id);
+    handleresult.showResult(res, 200, true, item);
+  } catch (error) {
+    handleresult.showResult(res, 400, false, error);
+  }
+});
+//Add coll
+router.post("/Collaborater/add", async function (req, res, next) {
+  try {
+    var item = await models_Collaborater.AddAnItem(req.body);
+    handleresult.showResult(res, 200, true, item);
+  } catch (error) {
+    handleresult.showResult(res, 400, false, error);
+  }
+});
+router.get("/Collaborater/", async function (req, res, next) {
+  console.log("1");
+  try {
+    var items = await models_Collaborater.GetAllItem();
+
+    handleresult.showResult(res, 200, true, items);
+  } catch (error) {
+    handleresult.showResult(res, 400, false, error);
+  }
+});
+router.get("/Collaborater/:id", async function (req, res, next) {
+  try {
+    var item = await models_Collaborater.GetItemById(req.params.id);
+    handleresult.showResult(res, 200, true, item);
+  } catch (error) {
+    handleresult.showResult(res, 400, false, error);
+  }
+});
+router.put("/Collaborater/edit/:id", async function (req, res, next) {
+  try {
+    var item = await models_Collaborater.editAnItem({
+      id: req.params.id,
+      update: req.body,
+    });
+    handleresult.showResult(res, 200, true, item);
+  } catch (error) {
+    handleresult.showResult(res, 400, false, error);
+  }
+});
+router.delete("/Collaborater/delete/:id", async function (req, res, next) {
+  try {
+    var item = await models_Collaborater.deleteAnItem(req.params.id);
+    handleresult.showResult(res, 200, true, item);
+  } catch (error) {
+    handleresult.showResult(res, 400, false, error);
+  }
+});
+//Add Event
+router.post("/Event/add", async function (req, res, next) {
+  try {
+    var item = await models_Event.AddAnItem(req.body);
+    handleresult.showResult(res, 200, true, item);
+  } catch (error) {
+    handleresult.showResult(res, 400, false, error);
+  }
+});
+router.get("/Event/", async function (req, res, next) {
+  console.log("1");
+  try {
+    var items = await models_Event.GetAllItem();
+
+    handleresult.showResult(res, 200, true, items);
+  } catch (error) {
+    handleresult.showResult(res, 400, false, error);
+  }
+});
+router.get("/Event/:id", async function (req, res, next) {
+  try {
+    var item = await models_Event.GetItemById(req.params.id);
+    handleresult.showResult(res, 200, true, item);
+  } catch (error) {
+    handleresult.showResult(res, 400, false, error);
+  }
+});
+router.put("/Event/edit/:id", async function (req, res, next) {
+  try {
+    var item = await models_Event.editAnItem({
+      id: req.params.id,
+      update: req.body,
+    });
+    handleresult.showResult(res, 200, true, item);
+  } catch (error) {
+    handleresult.showResult(res, 400, false, error);
+  }
+});
+router.delete("/Event/delete/:id", async function (req, res, next) {
+  try {
+    var item = await models_Event.deleteAnItem(req.params.id);
     handleresult.showResult(res, 200, true, item);
   } catch (error) {
     handleresult.showResult(res, 400, false, error);
