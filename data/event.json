@@ -1,0 +1,69 @@
+ {
+    "typeOfEvent_AN":{
+        "listGuestStars": {
+            "CustomerInEvent_AN":{
+                "name": "String",
+                "phone": "String",
+                "email": "String",
+                "obj": "Sinh Viên"
+            },
+            "numberOfCustomer": 100
+        },
+        "ageUser": 18,
+        "purpose": "Quyên góp từ thiện"
+    },
+    "typeOfEvent_HN":{
+        "CustomerInEvent":{
+            "name": "String",
+            "phone": "String",
+            "email": "String",
+        "obj":"Đại Lý"
+        },
+        "numberOfCustomer": 1000
+    },
+    "typeOfEvent_HTKH": {
+        "listGuestStars": {
+            "CustomerInEvent_KHKT": {
+                "name": "String",
+                "phone": "String",
+                "email": "String",
+                "obj": "Giáo Sư"
+      },
+      "numberOfCustomer": 500
+    },
+    "purpose": "tạo cơ hội để mỗi cá nhân được trao đổi"
+  },
+  "timeStart": "1238540400000",
+  "timeDone": "1238626800000",
+  "Status": "Công ty",
+  "scope": "public",
+
+  "timeLine": "String",
+  "Location": {
+    "name": "String",
+    "Location": "String",
+    "capacity": 1,
+    "acreage": 2,
+    "rateService":5 ,
+    "rateSecurity": 5,
+    "rateSound": 5
+  },
+  "time": 5,
+  "Theme": "String",
+  "Concept": "String",
+  "Details": {
+    "Gift": "String",
+    "invitationCart": "String",
+    "thanksCard": "String",
+    "food": "String",
+    "drink": "String",
+    "Recreational": "String"
+  },
+  "script": {
+    "host": "Account", 
+    "eventPlanner": "Account", 
+    "MC": "Account",
+    "issue": "String"
+  },
+  "Budget": 5
+}

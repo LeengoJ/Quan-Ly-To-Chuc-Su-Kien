@@ -1,11 +1,19 @@
 // Import the mongoose module
 const { Timestamp } = require("mongodb");
 const mongoose = require("mongoose");
-const CustomerInEvent_AN = require("CustomerInEvent_AN");
 
 var TypeOfEvent_AN = new mongoose.Schema({
   listGuestStars: {
-    type: CustomerInEvent_AN,
+    CustomerInEvent_AN: {
+      name: String,
+      phone: String,
+      email: String,
+      obj: {
+        type: String,
+        enum: ["Sinh Viên", "Người đã đi làm", "Khách mời"],
+        default: "Sinh Viên",
+      },
+    },
     numberOfCustomer: {
       type: Number,
       enum: [100, 300, 500, 1000],
