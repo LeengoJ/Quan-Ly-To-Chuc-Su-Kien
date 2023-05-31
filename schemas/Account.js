@@ -1,5 +1,5 @@
 const { Timestamp } = require("mongodb");
-const mongoose = require("mongoose");
+let mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 var configs = require("../configs/configs");
 const jwt = require("jsonwebtoken");
@@ -17,6 +17,7 @@ var Account = new mongoose.Schema({
     required: true,
   },
   address: String,
+  avatar: String,
 });
 // Ma hoa password
 Account.pre("save", function (next) {
@@ -57,15 +58,19 @@ Account.methods.resetPassword = function () {
   return resetToken;
 };
 
-Account.statics.findByCredentinal = async function (email, password) {
-  if (!email || !password) {
-    return { error: "khong de trong email va password" };
+Account.statics.findByCredentinal = async function (usern, pass) {
+  if (!usern || !pass) {
+    return { error: "khong de trong user va password" };
   }
-  let user = await this.findOne({ email: email });
+  // console.log(usern);
+  let user = await this.findOne({ userName: usern });
+  // console.log(user);
+
   if (!user) {
-    return { error: "email khong ton tai" };
+    return { error: "user khong ton tai" };
   }
-  let isMatch = await bcrypt.compare(password, user.password);
+  let isMatch = await bcrypt.compare(pass, user.passWord);
+  console.log(isMatch);
   if (!isMatch) {
     return { error: "password sai" };
   }

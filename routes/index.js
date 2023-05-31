@@ -5,11 +5,17 @@ var models_authentication = require("../models/authentication");
 var models_roll = require("../models/Roll");
 var models_rollUser = require("../models/RollUser");
 var models_Collaborater = require("../models/Collaborater");
-var models_Event = require("../models/Event");
+var models_Event = require("../models/EventDetails");
+var model_DetailEvent = require("../models/EventDetails");
 var models_UserInEvent = require("../models/UserInEvent");
+var models_User = require("../models/users");
+var model_CompanyLink = require("../models/CompanyLink");
 var { Rules, validate } = require("../validator/authentication");
 const Roll = require("../schemas/Roll");
 var protectMiddleware = require("../middleware/protect");
+var config1 = require("../configs/configs");
+
+const { config } = require("dotenv");
 
 /* GET home page. */
 router.get("/", function (req, res, next) {
@@ -36,7 +42,9 @@ router.post(
 router.post("/authentication/login", async function (req, res, next) {
   try {
     var result = await models_authentication.Login(req.body);
+    console.log(result);
     if (!result.error) {
+      console.log("loi o day");
       saveCookieResponse(res, 200, result);
     } else {
       handleresult.showResult(res, 200, true, result);
@@ -103,14 +111,62 @@ router.post(
     }
   }
 );
+//
+router.post(
+  "/CompanyLink/add",
+  //[protectMiddleware.protect, protectMiddleware.authorize("admin")],
+  async function (req, res, next) {
+    try {
+      var items = await model_CompanyLink.AddAnItem(req.body);
+      console.log(items);
+      handleresult.showResult(res, 200, true, items);
+    } catch (error) {
+      handleresult.showResult(res, 400, false, error);
+    }
+  }
+);
 //Roll
-router.post("/Roll/addRoll", async function (req, res, next) {
-  let newItem = await new Roll(req.body).save();
-});
+// router.post(
+//   "/Roll/addRoll",
+//   protectMiddleware.protect,
+//   protectMiddleware.authorize("admin"),
+//   async function (req, res, next) {
+//     try {
+//       // var items = await new Roll(req.body).save();
+//       console.log("sdasd");
+//       var items = await models_roll.AddAnItem(req.body);
+//       handleresult.showResult(res, 200, true, items);
+//     } catch (error) {
+//       handleresult.showResult(res, 400, false, error);
+//     }
+//   }
+// );
+router.post(
+  "/Roll/addRoll",
+  [protectMiddleware.protect, protectMiddleware.authorize("admin")],
+  async function (req, res, next) {
+    try {
+      var items = await models_roll.AddAnItem(req.body);
+      handleresult.showResult(res, 200, true, items);
+    } catch (error) {
+      handleresult.showResult(res, 400, false, error);
+    }
+  }
+);
 
 router.get("/Roll/", async function (req, res, next) {
   try {
     var items = await models_roll.GetAllItem();
+
+    handleresult.showResult(res, 200, true, items);
+  } catch (error) {
+    handleresult.showResult(res, 400, false, error);
+  }
+});
+router.get("/UserID/", async function (req, res, next) {
+  try {
+    console.log("items");
+    var items = await models_User.getAllId();
 
     handleresult.showResult(res, 200, true, items);
   } catch (error) {
@@ -146,23 +202,26 @@ router.delete("/Roll/delete/:id", async function (req, res, next) {
 });
 //Add roll with user
 router.get("/Roll_U/", async function (req, res, next) {
-  console.log("1");
   try {
     var items = await models_rollUser.GetAllItem();
-
     handleresult.showResult(res, 200, true, items);
   } catch (error) {
     handleresult.showResult(res, 400, false, error);
   }
 });
-router.post("/Roll_U/addRoll", async function (req, res, next) {
-  try {
-    var item = await models_rollUser.AddAnItem(req.body);
-    handleresult.showResult(res, 200, true, item);
-  } catch (error) {
-    handleresult.showResult(res, 400, false, error);
+router.post(
+  "/Roll_U/addRoll",
+  protectMiddleware.protect,
+  protectMiddleware.authorize("admin"),
+  async function (req, res, next) {
+    try {
+      var item = await models_rollUser.AddAnItem(req.body);
+      handleresult.showResult(res, 200, true, item);
+    } catch (error) {
+      handleresult.showResult(res, 400, false, error);
+    }
   }
-});
+);
 router.get("/Roll_U/:id", async function (req, res, next) {
   try {
     var item = await models_rollUser.GetItemById(req.params.id);
@@ -246,8 +305,6 @@ router.post("/Event/add", async function (req, res, next) {
   }
 });
 router.get("/Event/", async function (req, res, next) {
-  console.log("1");
-
   try {
     var items = await models_Event.GetAllItem();
     handleresult.showResult(res, 200, true, items);
@@ -277,6 +334,50 @@ router.put("/Event/edit/:id", async function (req, res, next) {
 router.delete("/Event/delete/:id", async function (req, res, next) {
   try {
     var item = await models_Event.deleteAnItem(req.params.id);
+    handleresult.showResult(res, 200, true, item);
+  } catch (error) {
+    handleresult.showResult(res, 400, false, error);
+  }
+});
+
+router.post("/EventDetail/add", async function (req, res, next) {
+  try {
+    var item = await model_DetailEvent.AddAnItem(req.body);
+    handleresult.showResult(res, 200, true, item);
+  } catch (error) {
+    handleresult.showResult(res, 400, false, error);
+  }
+});
+router.get("/EventDetail/", async function (req, res, next) {
+  try {
+    var items = await model_DetailEvent.GetAllItem();
+    handleresult.showResult(res, 200, true, items);
+  } catch (error) {
+    handleresult.showResult(res, 400, false, error);
+  }
+});
+router.get("/EventDetail/:id", async function (req, res, next) {
+  try {
+    var item = await model_DetailEvent.GetItemById(req.params.id);
+    handleresult.showResult(res, 200, true, item);
+  } catch (error) {
+    handleresult.showResult(res, 400, false, error);
+  }
+});
+router.put("/EventDetail/edit/:id", async function (req, res, next) {
+  try {
+    var item = await model_DetailEvent.editAnItem({
+      id: req.params.id,
+      update: req.body,
+    });
+    handleresult.showResult(res, 200, true, item);
+  } catch (error) {
+    handleresult.showResult(res, 400, false, error);
+  }
+});
+router.delete("/EventDetail/delete/:id", async function (req, res, next) {
+  try {
+    var item = await model_DetailEvent.deleteAnItem(req.params.id);
     handleresult.showResult(res, 200, true, item);
   } catch (error) {
     handleresult.showResult(res, 400, false, error);
@@ -328,4 +429,15 @@ router.delete("/UserInEvent/delete/:id", async function (req, res, next) {
     handleresult.showResult(res, 400, false, error);
   }
 });
+
 module.exports = router;
+function saveCookieResponse(res, StatusCode, token) {
+  const option = {
+    expirers: new Date(Date.now() + config.COOKIE_EXPIRE * 24 * 3600 * 1000),
+    httpOnly: true,
+  };
+  res.status(StatusCode).cookie("token", token, option).json({
+    success: true,
+    data: token,
+  });
+}

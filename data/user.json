@@ -1,0 +1,219 @@
+[{
+"address": "123 Main St, Anytown, USA",
+"age": 25,
+"email": "johndoe@example.com",
+"avatar": "https://example.com/avatar1.jpg",
+"name": "John Doe",
+"passWord": "passworD@123",
+"phone": "+1-555-555-5555",
+"userName": "johndoe25"
+},
+{
+"address": "42 Wallaby Way, Sydney, Australia",
+"age": 30,
+"email": "dory@example.com",
+"avatar": "https://example.com/avatar2.jpg",
+"name": "Dory",
+"passWord": "justkeepswimminG@1",
+"phone": "+61-2-1234-5678",
+"userName": "dory30"
+}
+,
+{
+"address": "Rua Augusta 123, Sao Paulo, Brazil",
+"age": 21,
+"email": "maria@example.com",
+"avatar": "https://example.com/avatar3.jpg",
+"name": "Maria",
+"passWord": "senha123@A",
+"phone": "+55-11-98765-4321",
+"userName": "maria21"
+}
+,
+{
+"address": "1-1-1 Shibuya, Tokyo, Japan",
+"age": 35,
+"email": "taro@example.com",
+"avatar": "https://example.com/avatar4.jpg",
+"name": "Taro",
+"passWord": "passworD@1234",
+"phone": "+81-3-1234-5678",
+"userName": "taro35"
+}
+,
+{
+"address": "Rua do Rosario 321, Rio de Janeiro, Brazil",
+"age": 27,
+"email": "pedro@example.com",
+"avatar": "https://example.com/avatar5.jpg",
+"name": "Pedro",
+"passWord": "123456Aa@",
+"phone": "+55-21-98765-4321",
+"userName": "pedro27"
+}
+,
+{
+"address": "1234 Main St, Anytown, USA",
+"age": 45,
+"email": "janedoe@example.com",
+"avatar": "https://example.com/avatar6.jpg",
+"name": "Jane Doe",
+"passWord": "passworD@12345",
+"phone": "+1-555-555-5555",
+"userName": "janedoe45"
+}
+,
+{
+"address": "Baker St 221B, London, UK",
+"age": 40,
+"email": "sherlock@example.com",
+"avatar": "https://example.com/avatar7.jpg",
+"name": "Sherlock Holmes",
+"passWord": "elementarymydearwatsoN@1",
+"phone": "+44-20-1234-5678",
+"userName": "sherlock40"
+}
+,
+{
+"address": "Piazza del Colosseo 1, Rome, Italy",
+"age": 33,
+"email": "giuseppe@example.com",
+"avatar": "https://example.com/avatar8.jpg",
+"name": "Giuseppe",
+"passWord": "italiA@123",
+"phone": "+39-06-1234-5678",
+"userName": "giuseppe33"
+}
+,
+{
+"address": "Champs-Elysees 1, Paris, France",
+"age": 29,
+"email": "pierre@example.com",
+"avatar": "https://example.com/avatar9.jpg",
+"name": "Pierre",
+"passWord": "pariS@456",
+"phone": "+33-1-1234-5678",
+"userName": "pierre29"
+}
+,
+{
+"address": "Kreuzbergstrasse 123, Berlin, Germany",
+"age": 22,
+"email": "hans@example.com",
+"avatar": "https://example.com/avatar10.jpg",
+"name": "Hans",
+"passWord": "berliN&89",
+"phone": "+49-30-1234-5678",
+"userName": "hans22"
+}
+,
+{
+"address": "Rua da Boavista 456, Porto, Portugal",
+"age": 26,
+"email": "joao@example.com",
+"avatar": "https://example.com/avatar11.jpg",
+"name": "Joao",
+"passWord": "portugaL!01",
+"phone": "+351-22-1234-5678",
+"userName": "joao26"
+}
+,
+{
+"address": "La Rambla 789, Barcelona, Spain",
+"age": 31,
+"email": "carla@example.com",
+"avatar": "https://example.com/avatar12.jpg",
+"name": "Carla",
+"passWord": "barcelonA@022",
+"phone": "+34-93-1234-5678",
+"userName": "carla31"
+}
+,
+{
+"address": "Queen St 456, Auckland, New Zealand",
+"age": 24,
+"email": "michael@example.com",
+"avatar": "https://example.com/avatar13.jpg",
+"name": "Michael",
+"passWord": "newzealanD!23",
+"phone": "+64-9-1234-5678",
+"userName": "michael24"
+}
+,
+{
+"address": "Rua dos Acores 123, Lisbon, Portugal",
+"age": 28,
+"email": "ana@example.com",
+"avatar": "https://example.com/avatar14.jpg",
+"name": "Ana",
+"passWord": "lisboA$56",
+"phone": "+351-21-1234-5678",
+"userName": "ana28"
+}
+,
+{
+"address": "Rue de Rivoli 789, Paris, France",
+"age": 32,
+"email": "sophie@example.com",
+"avatar": "https://example.com/avatar15.jpg",
+"name": "Sophie",
+"passWord": "francE@789",
+"phone": "+33-1-1234-5678",
+"userName": "sophie32"
+}
+,
+{
+"address": "Wallstrasse 123, Frankfurt, Germany",
+"age": 23,
+"email": "lisa@example.com",
+"avatar": "https://example.com/avatar16.jpg",
+"name": "Lisa",
+"passWord": "germanY@3023",
+"phone": "+49-69-1234-5678",
+"userName": "lisa23"
+}
+,
+{
+"address": "Via del Corso 456, Rome, Italy",
+"age": 27,
+"email": "marco@example.com",
+"avatar": "https://example.com/avatar17.jpg",
+"name": "Marco",
+"passWord": "italY&56",
+"phone": "+39-06-1234-5678",
+"userName": "marco27"
+}
+,
+{
+"address": "Rua Augusta 789, Sao Paulo, Brazil",
+"age": 29,
+"email": "juliana@example.com",
+"avatar": "https://example.com/avatar18.jpg",
+"name": "Juliana",
+"passWord": "braziL&89",
+"phone": "+55-11-98765-4321",
+"userName": "juliana29"
+}
+,
+{
+"address": "Nakamura-ku 123, Nagoya, Japan",
+"age": 34,
+"email": "yuki@example.com",
+"avatar": "https://example.com/avatar19.jpg",
+"name": "Yuki",
+"passWord": "japaH*023",
+"phone": "+81-52-1234-5678",
+"userName": "yuki34"
+}
+,
+{
+"address": "Rue du Faubourg Saint-Honore 456, Paris, France",
+"age": 30,
+"email": "olivier@example.com",
+"avatar": "https://example.com/avatar20.jpg",
+"name": "Olivier",
+"passWord": "francJ&023",
+"phone": "+33-1-1234-5678",
+"userName": "olivier30"
+}
+]

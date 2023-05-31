@@ -1,0 +1,122 @@
+[
+    {
+        "NameCB": "Tracy Smith",
+        "fields": "Marketing",
+        "email": "tracy.smith@example.com",
+        "phoneNumber": "123-456-7890"
+    },
+    {
+        "NameCB": "Alex Rodriguez",
+        "fields": "Social Media Management",
+        "email": "alex.rodriguez@example.com",
+        "phoneNumber": "555-555-5555"
+    },
+    {
+        "NameCB": "Avery Johnson",
+        "fields": "Event Planning",
+        "email": "avery.johnson@example.com",
+        "phoneNumber": "123-456-7890"
+    },
+    {
+        "NameCB": "Chris Lee",
+        "fields": "Graphic Design",
+        "email": "chris.lee@example.com",
+        "phoneNumber": "555-555-5555"
+    },
+    {
+        "NameCB": "Emily Chen",
+        "fields": "Public Relations",
+        "email": "emily.chen@example.com",
+        "phoneNumber": "123-456-7890"
+    },
+    {
+        "NameCB": "Frank Kim",
+        "fields": "Photography",
+        "email": "frank.kim@example.com",
+        "phoneNumber": "555-555-5555"
+    },
+    {
+        "NameCB": "Grace Lee",
+        "fields": "Catering",
+        "email": "grace.lee@example.com",
+        "phoneNumber": "123-456-7890"
+    },
+    {
+        "NameCB": "Henry Johnson",
+        "fields": "Entertainment",
+        "email": "henry.johnson@example.com",
+        "phoneNumber": "555-555-5555"
+    },
+    {
+        "NameCB": "Isabella Martinez",
+        "fields": "Decoration",
+        "email": "isabella.martinez@example.com",
+        "phoneNumber": "123-456-7890"
+    },
+    {
+        "NameCB": "Jackie Chen",
+        "fields": "Audio/Visual",
+        "email": "jackie.chen@example.com",
+        "phoneNumber": "555-555-5555"
+    },
+    {
+        "NameCB": "Kevin Nguyen",
+        "fields": "Logistics",
+        "email": "kevin.nguyen@example.com",
+        "phoneNumber": "123-456-7890"
+    },
+    {
+        "NameCB": "Linda Davis",
+        "fields": "Volunteer Coordination",
+        "email": "linda.davis@example.com",
+        "phoneNumber": "555-555-5555"
+    },
+    {
+        "NameCB": "MichaelNguyen",
+        "fields": "Sponsorship",
+        "email": "michael.nguyen@example.com",
+        "phoneNumber": "123-456-7890"
+    },
+    {
+        "NameCB": "Nancy Kim",
+        "fields": "Ticketing",
+        "email": "nancy.kim@example.com",
+        "phoneNumber": "555-555-5555"
+    },
+    {
+        "NameCB": "Oliver Lee",
+        "fields": "Security",
+        "email": "oliver.lee@example.com",
+        "phoneNumber": "123-456-7890"
+    },
+    {
+        "NameCB": "Peter Chen",
+        "fields": "Web Development",
+        "email": "peter.chen@example.com",
+        "phoneNumber": "555-555-5555"
+    },
+    {
+        "NameCB": "Rachel Smith",
+        "fields": "Event Coordination",
+        "email": "rachel.smith@example.com",
+        "phoneNumber": "123-456-7890"
+    },
+    {
+        "NameCB": "Samuel Johnson",
+        "fields": "Marketing Research",
+        "email": "samuel.johnson@example.com",
+        "phoneNumber": "555-555-5555"
+    },
+    {
+        "NameCB": "Tina Kim",
+        "fields": "Social Media Advertising",
+        "email": "tina.kim@example.com",
+        "phoneNumber": "123-456-7890"
+    },
+    {
+        "NameCB": "Victor Nguyen",
+        "fields": "Budgeting",
+        "email": "victor.nguyen@example.com",
+        "phoneNumber": "555-555-5555"
+    }
+]

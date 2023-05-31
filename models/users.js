@@ -4,6 +4,10 @@ module.exports = {
   getAllItem: async () => {
     return await User.find({}).exec();
   },
+  getAllId: async () => {
+    let allUser = await User.find({}).exec();
+    return allUser.map((user) => user._id);
+  },
   getItemById: async (id) => {
     return await User.findById(id).exec();
   },

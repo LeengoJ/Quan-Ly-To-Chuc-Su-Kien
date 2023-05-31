@@ -13,7 +13,7 @@ module.exports = {
   //   "878331618838-0pb8t462pt5ueus9aikm1br5neqk2vor.apps.googleusercontent.com",
   // OAUTH_CLIENT_SECRET: "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",
   // OAUTH_REFRESH_TOKEN: "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",
-
+  COOKIE_EXPIRE: "30",
   SMTP_Host: "sandbox.smtp.mailtrap.io",
   SMTP_Port: 2525,
   SMTP_Username: "9f3e1016402afc",

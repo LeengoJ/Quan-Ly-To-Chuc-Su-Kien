@@ -10,6 +10,7 @@ module.exports = {
       $or: [{ email: item.email }, { username: item.username }],
     }).exec();
     if (!check) {
+      console.log(4);
       return { error: "Trung gmail hoac username" };
     } else {
       console.log("f5");
@@ -19,11 +20,14 @@ module.exports = {
     }
   },
   Login: async (item) => {
-    const { email, passWord } = item;
-    const result = await Account.findByCredentinal(email, passWord);
+    const { userName, passWord } = item;
+    console.log(userName + passWord);
+    const result = await Account.findByCredentinal(userName, passWord);
+
     if (result.error) {
       return result;
     }
+    console.log(result);
     return result.getSignedJWT();
   },
   ResetPassWord: async (item) => {
