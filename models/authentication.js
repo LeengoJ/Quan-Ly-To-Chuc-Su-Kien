@@ -21,13 +21,13 @@ module.exports = {
   },
   Login: async (item) => {
     const { userName, passWord } = item;
-    console.log(userName + passWord);
+    // console.log(userName + passWord);
     const result = await Account.findByCredentinal(userName, passWord);
 
     if (result.error) {
       return result;
     }
-    console.log(result);
+    // console.log(result);
     return result.getSignedJWT();
   },
   ResetPassWord: async (item) => {

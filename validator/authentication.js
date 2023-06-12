@@ -1,6 +1,6 @@
 const { body, validationResult } = require("express-validator");
 var handleresult = require("../configs/handleResult");
-const Roll = require("../models/Roll");
+const Roll = require("../models/Role");
 var util = require("util");
 
 var roles = Roll.GetAllItem();

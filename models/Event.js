@@ -1,5 +1,5 @@
 const configs = require("../configs/configs");
-const Event = require("../schemas/Event");
+const Event = require("../schemas/EventDetail");
 
 module.exports = {
   GetAllItem: async () => {

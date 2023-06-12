@@ -8,6 +8,10 @@ module.exports = {
     let allUser = await User.find({}).exec();
     return allUser.map((user) => user._id);
   },
+  // getNameUserById: async (id) => {
+  //   let user = await User.findById(id).exec();
+  //   return user.userName;
+  // },
   getItemById: async (id) => {
     return await User.findById(id).exec();
   },

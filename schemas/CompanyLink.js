@@ -3,7 +3,6 @@ const mongoose = require("mongoose");
 var CompanyLink = new mongoose.Schema({
   NameC: String, //Tên công ty: trường thông tin bắt buộc cho tên của công ty hợp tác.
   Address: String, //Địa chỉ: trường thông tin bắt buộc cho địa chỉ của công ty.
-
   email: String, //Email: trường thông tin bắt buộc cho địa chỉ email của công ty.
   phoneNumber: String, //Số điện thoại: trường thông tin bắt buộc cho số điện thoại của công ty.
   Website: String, //Website: trường thông tin tùy chọn cho URL của trang web công ty.

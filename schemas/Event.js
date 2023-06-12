@@ -6,4 +6,4 @@ var Event = new mongoose.Schema({
   idUserAdmin: String,
 });
 // Export model
-module.exports = mongoose.model("UserInEvent", UserInEvent);
+module.exports = mongoose.model("Event", Event);
