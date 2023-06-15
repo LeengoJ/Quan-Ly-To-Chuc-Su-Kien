@@ -21,7 +21,4 @@ module.exports = {
   deleteAnItem: async (id) => {
     return await Roll.findByIdAndDelete(id);
   },
-  GetItemByIdUser: async (idAccount) => {
-    return await Roll.find({ idAccount: idAccount }).exec();
-  },
 };

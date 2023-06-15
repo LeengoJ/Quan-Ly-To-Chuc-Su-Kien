@@ -31,16 +31,28 @@ module.exports = {
     }
   },
   authorize: (...roles) => {
-    return (req, res, next) => {
-      // console.log(req.user.roles);
+    return async (req, res, next) => {
+      //
+      let token = "";
+      if (
+        req.headers.authorization &&
+        req.headers.authorization.startsWith("bearer")
+      ) {
+        token = req.headers.authorization.split(" ")[1];
+      } else if (req.cookies.token) {
+        token = req.cookies.token;
+      }
+      if (!token) {
+        return handleresult.showResult(res, 200, false, "vui long dang nhap");
+      }
       const decode = jwt.verify(token, config.JWT_SECRET);
 
       let idUser = decode.id;
-      var roles1 = models_roll.getItemById(
-        models_rollUser.GetItemByIdUser(idUser).idRoll
-      );
-      if (roles1 == "god") next();
-      if (!roles.includes(roles1)) {
+      let rolluser = await models_rollUser.GetItemByIdUser(idUser);
+      let roles1 = await models_roll.GetItemById(rolluser[0].idRoll);
+      console.log(roles1.Roll);
+      if (roles1.Roll == "god") next();
+      if (!roles.includes(roles1.Roll)) {
         return handleresult.showResult(res, 200, false, "ban khong co quyen");
       }
       next();
@@ -48,6 +60,18 @@ module.exports = {
   },
   checkRollInEvent: (...roles) => {
     return (req, res, next) => {
+      let token = "";
+      if (
+        req.headers.authorization &&
+        req.headers.authorization.startsWith("bearer")
+      ) {
+        token = req.headers.authorization.split(" ")[1];
+      } else if (req.cookies.token) {
+        token = req.cookies.token;
+      }
+      if (!token) {
+        return handleresult.showResult(res, 200, false, "vui long dang nhap");
+      }
       // console.log(req.user.roles);
       const decode = jwt.verify(token, config.JWT_SECRET);
       let idUser = decode.id;

@@ -12,11 +12,13 @@ let model_CompanyLink = require("../models/CompanyLink");
 let model_CustomerOfAn = require("../models/CustomerInEvent_AN");
 let model_Location = require("../models/LocationEvent");
 let { Rules, validate } = require("../validator/authentication");
+let dowloadimg = require("../middleware/dowloadimg");
 const Roll = require("../schemas/Role");
 let protectMiddleware = require("../middleware/protect");
 let config1 = require("../configs/configs");
 let jwt = require("jsonwebtoken");
 let UserForEentAn = require("../service/UserForEventAn/add");
+const { body } = require("express-validator");
 
 // let Account = require("../schemas/Account")
 // const { config } = require("dotenv");
@@ -27,7 +29,9 @@ router.get("/", async function (req, res, next) {
   // res.send("Bạn đang lập trình tại ");
   // res.render("/index");
   try {
-    res.render("home/index");
+    // res.render("home/index");
+    let item = await model_DetailEvent.getAllEventPublic();
+    handleresult.showResult(res, 200, true, item);
   } catch (error) {
     res.status(500).json({ error: "Failed to retrieve players" });
   }
@@ -65,7 +69,21 @@ router.post("/authentication/login", async function (req, res, next) {
 });
 router.get("/authentication/me", async function (req, res, next) {
   try {
-    handleresult.showResult(res, 200, true, req.user);
+    let token = "";
+    if (
+      req.headers.authorization &&
+      req.headers.authorization.startsWith("bearer")
+    ) {
+      token = req.headers.authorization.split(" ")[1];
+    } else if (req.cookies.token) {
+      token = req.cookies.token;
+    }
+
+    const decode = jwt.verify(token, config1.JWT_SECRET);
+
+    let user = await models_User.getItemById(decode.id);
+    console.log(user);
+    handleresult.showResult(res, 200, true, user);
   } catch (error) {
     handleresult.showResult(res, 400, false, error);
   }
@@ -92,11 +110,8 @@ router.post(
   "/authentication/forgotpassword",
 
   async function (req, res, next) {
-    console.log("1");
     try {
       const result = await models_authentication.FogotPassWord(req.body);
-
-      console.log("3");
       if (!result) {
         handleresult.showResult(res, 200, false, {
           data: "email khong ton tai",
@@ -143,10 +158,63 @@ router.post(
     }
   }
 );
+router.get(
+  "/CompanyLink/",
+  protectMiddleware.protect,
+  async function (req, res, next) {
+    console.log("1");
+    try {
+      let items = await model_CompanyLink.GetAllItem();
+
+      handleresult.showResult(res, 200, true, items);
+    } catch (error) {
+      handleresult.showResult(res, 400, false, error);
+    }
+  }
+);
+router.get(
+  "/CompanyLink/:id",
+  protectMiddleware.protect,
+  async function (req, res, next) {
+    try {
+      let item = await model_CompanyLink.GetItemById(req.params.id);
+      handleresult.showResult(res, 200, true, item);
+    } catch (error) {
+      handleresult.showResult(res, 400, false, error);
+    }
+  }
+);
+router.put(
+  "/CompanyLink/edit/:id",
+  protectMiddleware.protect,
+  async function (req, res, next) {
+    try {
+      let item = await model_CompanyLink.editAnItem({
+        id: req.params.id,
+        update: req.body,
+      });
+      handleresult.showResult(res, 200, true, item);
+    } catch (error) {
+      handleresult.showResult(res, 400, false, error);
+    }
+  }
+);
+router.delete(
+  "/CompanyLink/delete/:id",
+  protectMiddleware.protect,
+  async function (req, res, next) {
+    try {
+      let item = await model_CompanyLink.deleteAnItem(req.params.id);
+      handleresult.showResult(res, 200, true, item);
+    } catch (error) {
+      handleresult.showResult(res, 400, false, error);
+    }
+  }
+);
 //
 router.post(
   "/CustomerForEventAN/add",
-  // protectMiddleware.protect,
+  protectMiddleware.protect,
   // [protectMiddleware.protect, protectMiddleware.authorize("admin")],
   async function (req, res, next) {
     try {
@@ -177,18 +245,24 @@ router.put(
   }
 );
 // Location
-router.post("/Location/add", async function (req, res, next) {
-  try {
-    let items = await model_Location.AddAnItem(req.body);
-    console.log(items);
-    handleresult.showResult(res, 200, true, items);
-  } catch (error) {
-    handleresult.showResult(res, 400, false, error);
+router.post(
+  "/Location/add",
+  protectMiddleware.protect,
+  protectMiddleware.authorize("admin"),
+  async function (req, res, next) {
+    try {
+      let items = await model_Location.AddAnItem(req.body);
+      console.log(items);
+      handleresult.showResult(res, 200, true, items);
+    } catch (error) {
+      handleresult.showResult(res, 400, false, error);
+    }
   }
-});
+);
 router.put(
   "/Location/edit/:id",
   protectMiddleware.protect,
+  protectMiddleware.authorize("admin"),
   async function (req, res, next) {
     try {
       let item = await model_Location.editAnItem({
@@ -233,6 +307,7 @@ router.post(
 router.get(
   "/Roll/",
   protectMiddleware.protect,
+  protectMiddleware.authorize("admin"),
   async function (req, res, next) {
     try {
       let items = await models_roll.GetAllItem();
@@ -246,6 +321,7 @@ router.get(
 router.get(
   "/UserID/",
   protectMiddleware.protect,
+  protectMiddleware.authorize("admin"),
   async function (req, res, next) {
     try {
       let items = await models_User.getAllId();
@@ -256,7 +332,7 @@ router.get(
   }
 );
 router.get(
-  "/UserNameById/",
+  "/UserName/",
   protectMiddleware.protect,
   async function (req, res, next) {
     try {
@@ -271,6 +347,7 @@ router.get(
       }
       let id = jwt.verify(token, config1.JWT_SECRET);
       let items = await models_User.getItemById(id.id);
+      items = items.userName;
       handleresult.showResult(res, 200, true, items);
     } catch (error) {
       handleresult.showResult(res, 400, false, error);
@@ -307,6 +384,7 @@ router.put(
 router.delete(
   "/Roll/delete/:id",
   protectMiddleware.protect,
+  protectMiddleware.authorize("admin"),
   async function (req, res, next) {
     try {
       let item = await models_roll.deleteAnItem(req.params.id);
@@ -320,6 +398,7 @@ router.delete(
 router.get(
   "/Roll_U/",
   protectMiddleware.protect,
+  protectMiddleware.authorize("admin"),
   async function (req, res, next) {
     try {
       let items = await models_rollUser.GetAllItem();
@@ -381,72 +460,7 @@ router.delete(
     }
   }
 );
-//Add coll
-router.post(
-  "/Collaborater/add",
-  protectMiddleware.protect,
-  async function (req, res, next) {
-    try {
-      let item = await models_Collaborater.AddAnItem(req.body);
-      handleresult.showResult(res, 200, true, item);
-    } catch (error) {
-      handleresult.showResult(res, 400, false, error);
-    }
-  }
-);
-router.get(
-  "/Collaborater/",
-  protectMiddleware.protect,
-  async function (req, res, next) {
-    console.log("1");
-    try {
-      let items = await models_Collaborater.GetAllItem();
 
-      handleresult.showResult(res, 200, true, items);
-    } catch (error) {
-      handleresult.showResult(res, 400, false, error);
-    }
-  }
-);
-router.get(
-  "/Collaborater/:id",
-  protectMiddleware.protect,
-  async function (req, res, next) {
-    try {
-      let item = await models_Collaborater.GetItemById(req.params.id);
-      handleresult.showResult(res, 200, true, item);
-    } catch (error) {
-      handleresult.showResult(res, 400, false, error);
-    }
-  }
-);
-router.put(
-  "/Collaborater/edit/:id",
-  protectMiddleware.protect,
-  async function (req, res, next) {
-    try {
-      let item = await models_Collaborater.editAnItem({
-        id: req.params.id,
-        update: req.body,
-      });
-      handleresult.showResult(res, 200, true, item);
-    } catch (error) {
-      handleresult.showResult(res, 400, false, error);
-    }
-  }
-);
-router.delete(
-  "/Collaborater/delete/:id",
-  protectMiddleware.protect,
-  async function (req, res, next) {
-    try {
-      let item = await models_Collaborater.deleteAnItem(req.params.id);
-      handleresult.showResult(res, 200, true, item);
-    } catch (error) {
-      handleresult.showResult(res, 400, false, error);
-    }
-  }
-);
 // Add Event
 router.post(
   "/Event/add",
@@ -454,6 +468,7 @@ router.post(
   async function (req, res, next) {
     try {
       let item = await models_Event.AddAnItem(req.body);
+
       console.log(item);
       handleresult.showResult(res, 200, true, item);
     } catch (error) {
@@ -463,10 +478,25 @@ router.post(
 );
 router.get(
   "/Event/",
-  protectMiddleware.protect,
+  // protectMiddleware.protect,
   async function (req, res, next) {
     try {
       let items = await models_Event.GetAllItem();
+      handleresult.showResult(res, 200, true, items);
+    } catch (error) {
+      handleresult.showResult(res, 400, false, error);
+    }
+  }
+);
+router.get(
+  "/EventUandN/",
+  // protectMiddleware.protect,
+  async function (req, res, next) {
+    try {
+      let items = await models_Event.GetIdByIdUserAndEventName(
+        req.body.idUserAdmin,
+        req.body.nameEvent
+      )._id;
       handleresult.showResult(res, 200, true, items);
     } catch (error) {
       handleresult.showResult(res, 400, false, error);
@@ -515,11 +545,24 @@ router.delete(
 
 router.post(
   "/EventDetail/add",
-  // protectMiddleware.protect,
+  protectMiddleware.protect,
   async function (req, res, next) {
     try {
       let item = await model_DetailEvent.AddAnItem(req.body);
       handleresult.showResult(res, 200, true, item);
+    } catch (error) {
+      handleresult.showResult(res, 400, false, error);
+    }
+  }
+);
+router.post(
+  "/EventDetail/addfile",
+  protectMiddleware.protect,
+  dowloadimg.uploadthankscard.single("img1"),
+  // dowloadimg.uploadinvitecard.single("img"),
+  async function (req, res, next) {
+    try {
+      handleresult.showResult(res, 200, true, cb);
     } catch (error) {
       handleresult.showResult(res, 400, false, error);
     }

@@ -20,4 +20,7 @@ module.exports = {
   deleteAnItem: async (id) => {
     return await EventDetails.findByIdAndDelete(id);
   },
+  getAllEventPublic: async () => {
+    return await EventDetails.find({ scope: "public" });
+  },
 };

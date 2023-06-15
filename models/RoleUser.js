@@ -1,4 +1,5 @@
 const configs = require("../configs/configs");
+const Account = require("../schemas/Account");
 const RollUser = require("../schemas/RoleUser");
 
 module.exports = {
@@ -19,5 +20,10 @@ module.exports = {
   },
   deleteAnItem: async (id) => {
     return await RollUser.findByIdAndDelete(id);
+  },
+  GetItemByIdUser: async (idAccount) => {
+    return await RollUser.find({
+      idAccount: idAccount,
+    }).exec();
   },
 };

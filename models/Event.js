@@ -1,5 +1,5 @@
 const configs = require("../configs/configs");
-const Event = require("../schemas/EventDetail");
+const Event = require("../schemas/Event");
 
 module.exports = {
   GetAllItem: async () => {
@@ -7,6 +7,12 @@ module.exports = {
   },
   GetItemById: async (id) => {
     return await Event.findById(id).exec();
+  },
+  GetIdByIdUserAndEventName: async (idUserAdmin, Name) => {
+    return await Event.findOne({
+      idUserAdmin: idUserAdmin,
+      nameEvent: Name,
+    }).exec();
   },
   AddAnItem: async (item) => {
     return new Event(item).save();
